@@ -84,3 +84,7 @@ export interface IHistorical {
 export interface ChartProps {
   coinId: string;
 }
+
+export interface PriceProps {
+  coinId: string;
+}

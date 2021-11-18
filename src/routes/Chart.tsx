@@ -1,11 +1,11 @@
+import ApexChart from 'react-apexcharts';
 import { useQuery } from 'react-query';
 import { fetchCoinHistory } from '../api';
-import ApexChart from 'react-apexcharts';
 import { ChartProps, IHistorical } from '../interfaces';
 
 function Chart({ coinId }: ChartProps) {
   const { isLoading, data } = useQuery<IHistorical[]>(
-    ['ohlcv', coinId],
+    ['chart_ohlcv', coinId],
     () => fetchCoinHistory(coinId),
     {
       refetchInterval: 10000,
@@ -32,6 +32,9 @@ function Chart({ coinId }: ChartProps) {
               height: 500,
               width: 500,
               background: 'transparent',
+              toolbar: {
+                show: false,
+              },
             },
             grid: {
               show: false,

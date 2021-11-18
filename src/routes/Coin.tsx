@@ -1,8 +1,8 @@
+import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { Helmet } from 'react-helmet';
-import { Route, Switch, useLocation, useParams, useRouteMatch } from 'react-router';
+import { Route, Switch, useHistory, useLocation, useParams, useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { fetchCoinInfo, fetchCoinTickers } from '../api';
 import Chart from './Chart';
 import Price from './Price';
@@ -11,12 +11,13 @@ import { InfoData, RouteParams, RouteState, TickersData } from '../interfaces';
 const Container = styled.div`
   padding: 0px 20px;
   max-width: 480px;
-  margin: 0 auto;
+  margin: 20px auto;
 `;
 
 const Header = styled.header`
   height: 10vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -24,6 +25,11 @@ const Header = styled.header`
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
+`;
+
+const GoBackLink = styled(Link)`
+  margin: 10px 0;
+  text-decoration: underline;
 `;
 
 const Loader = styled.span`
@@ -35,6 +41,7 @@ const Overview = styled.div`
   display: flex;
   justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.5);
+  margin: 10px 0;
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -93,6 +100,7 @@ function Coin() {
   );
 
   const loading = infoLoading || tickersLoading;
+
   return (
     <Container>
       <Helmet>
@@ -100,7 +108,9 @@ function Coin() {
       </Helmet>
       <Header>
         <Title>{state?.name ? state.name : loading ? 'Loading...' : infoData?.name}</Title>
+        <GoBackLink to="/">Go Back</GoBackLink>
       </Header>
+
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -140,7 +150,7 @@ function Coin() {
           </Tabs>
           <Switch>
             <Route path={`/${coinId}/price`}>
-              <Price />
+              <Price coinId={coinId} />
             </Route>
             <Route path={`/${coinId}/chart`}>
               <Chart coinId={coinId} />
