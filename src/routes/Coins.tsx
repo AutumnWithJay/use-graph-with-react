@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchCoins } from '../api';
+import { CoinInterface } from '../interfaces';
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -52,16 +53,6 @@ const Img = styled.img`
   height: 30px;
   margin-right: 10px;
 `;
-
-interface CoinInterface {
-  id: string;
-  name: string;
-  symbol: string;
-  rank: number;
-  is_new: boolean;
-  is_active: boolean;
-  type: string;
-}
 
 function Coins() {
   const { isLoading, data } = useQuery<CoinInterface[]>('allCoins', fetchCoins);
